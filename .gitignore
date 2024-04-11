@@ -54,4 +54,4 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-config/jewelry-store-uit-firebase-adminsdk-21at7-0fd31d8e1f.json
+jewelry-store-uit-firebase-adminsdk-21at7-0fd31d8e1f.json
