@@ -6,7 +6,7 @@ import * as admin from 'firebase-admin';
     {
       provide: 'FIREBASE_ADMIN',
       useFactory: () => {
-        const serviceAccount = require('../../config/jewelry-store-uit-firebase-adminsdk-21at7-0fd31d8e1f.json');
+        const serviceAccount = require('../../jewelry-store-uit-firebase-adminsdk-21at7-0fd31d8e1f.json');
         console.log('serviceAccount', serviceAccount);
         admin.initializeApp({
           credential: admin.credential.cert(serviceAccount),
