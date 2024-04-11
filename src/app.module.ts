@@ -9,6 +9,7 @@ import { CartModule } from './cart/cart.module';
 import { UserModule } from './user/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { FirebaseAuthGuard } from './guard/firebase-auth.guard';
+import { User } from './entity/User';
 
 @Module({
   imports: [
@@ -18,9 +19,8 @@ import { FirebaseAuthGuard } from './guard/firebase-auth.guard';
       type: 'postgres',
       url: process.env.DATABASE_URL,
       synchronize: true,
-      ssl: true,
       logging: true,
-      entities: ['dist/**/*.entity{.ts,.js}'],
+      entities: ['build/entity/*.js'],
     }),
     FirebaseModule,
     CartModule,
