@@ -7,9 +7,6 @@ import { ConfigModule } from '@nestjs/config';
 import { FirebaseModule } from './firebase/firebase.module';
 import { CartModule } from './cart/cart.module';
 import { UserModule } from './user/user.module';
-import { APP_GUARD } from '@nestjs/core';
-import { FirebaseAuthGuard } from './guard/firebase-auth.guard';
-import { User } from './entity/User';
 
 @Module({
   imports: [
