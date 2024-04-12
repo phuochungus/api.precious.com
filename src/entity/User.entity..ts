@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { Cart } from './Cart';
+import { Cart } from './Cart.entity';
 
 @Entity()
 export class User {

@@ -7,8 +7,8 @@ import {
   JoinColumn,
   OneToOne,
 } from 'typeorm';
-import { User } from './User';
-import { CartItem } from './CartItem';
+import { User } from './User.entity.';
+import { CartItem } from './CartItem.entity';
 
 @Entity()
 export class Cart {

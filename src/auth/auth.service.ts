@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../entity/User';
+import { User } from '../entity/User.entity.';
 import * as admin from 'firebase-admin';
 
 @Injectable()

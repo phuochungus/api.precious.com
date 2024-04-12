@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { User } from '../entity/User';
+import { User } from '../entity/User.entity.';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FirebaseModule } from '../firebase/firebase.module';
 
