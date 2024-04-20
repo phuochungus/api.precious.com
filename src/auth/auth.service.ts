@@ -49,7 +49,7 @@ export class AuthService implements OnModuleInit {
         console.log(path);
         user.avatar_img_path = path;
         await this.usersRepository.save(user);
-        return user;
+        return await this.usersRepository.findOne({ where: { uid } });
       }
 
       return user;
