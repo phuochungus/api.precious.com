@@ -1,0 +1,38 @@
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Cart } from '../../cart/entities/cart.entity';
+import { Expose } from 'class-transformer';
+
+enum Gender {
+  MALE,
+  FEMALE,
+}
+
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ unique: true })
+  uid: string;
+
+  @OneToOne(() => Cart, (cart) => cart.user)
+  @JoinColumn()
+  cart: Cart;
+
+  @Column({ nullable: true })
+  avatar_img_path?: string;
+
+  @Column({ type: 'enum', enum: Gender, default: Gender.MALE })
+  gender: Gender;
+
+  @Column({ nullable: true })
+  email?: string;
+
+  @Column('smallint', { nullable: true })
+  age?: number;
+
+  @Expose()
+  get avatar_url(): string {
+    return `https://storage.googleapis.com/${process.env.STORAGE_BUCKET_NAME}/${this.avatar_img_path}`
+  }
+}
