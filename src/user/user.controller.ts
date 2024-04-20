@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Injectable, Param } from "@nestjs/common";
+import { Controller, Delete, Get, Param } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { ApiTags } from "@nestjs/swagger";
 

@@ -35,7 +35,7 @@ export class AuthService implements OnModuleInit {
 
 
         const avatarSVG = await this.createAvatar(this.initials, {
-          seed: decodedToken.name,
+          seed: decodedToken.name || decodedToken.email,
         }).toArrayBuffer();
 
         const path = await this.storageService.uploadFile({
@@ -62,7 +62,35 @@ export class AuthService implements OnModuleInit {
   }
 
   async loginWithEmail(email: string, password: string) {
+    const user = await getAuth().getUserByEmail(email);
+    const token = await getAuth().createCustomToken(user.uid);
+
+    return await this.exchangeIdToken(token);
+  }
+
+  async exchangeIdToken(idToken: string) {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      "token": idToken,
+      "returnSecureToken": true
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+    try {
+      const res = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=" + process.env.FIREBASE_API_KEY, requestOptions)
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      throw error;
+    }
 
   }
+
 
 }

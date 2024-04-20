@@ -32,7 +32,9 @@ export class User {
   age?: number;
 
   @Expose()
-  get avatar_url(): string {
-    return `https://storage.googleapis.com/${process.env.STORAGE_BUCKET_NAME}/${this.avatar_img_path}`
+  get avatar_img_path_url(): string {
+    if (this.avatar_img_path)
+      return `https://storage.googleapis.com/${process.env.STORAGE_BUCKET_NAME}/${this.avatar_img_path}`
+    return null;
   }
 }

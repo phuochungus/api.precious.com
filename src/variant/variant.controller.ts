@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ClassSerializerInterceptor, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, NotFoundException } from '@nestjs/common';
 import { VariantService } from './variant.service';
 import { CreateVariantDto } from './dto/create-variant.dto';
 import { UpdateVariantDto } from './dto/update-variant.dto';
@@ -7,7 +7,6 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Variant')
 @Controller('variant')
-@UseInterceptors(ClassSerializerInterceptor)
 export class VariantController {
   constructor(private readonly variantService: VariantService) { }
 

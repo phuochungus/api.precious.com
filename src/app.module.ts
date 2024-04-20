@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -12,6 +12,7 @@ import { OptionModule } from './option/option.module';
 import { VariantOptionValueModule } from './variant-option-value/variant-option-value.module';
 import { SeedModule } from './seed/seed.module';
 import { TypeModule } from './type/type.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -36,6 +37,12 @@ import { TypeModule } from './type/type.module';
     VariantOptionValueModule,
     SeedModule,
     TypeModule,
+  ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
   ],
 })
 export class AppModule { }

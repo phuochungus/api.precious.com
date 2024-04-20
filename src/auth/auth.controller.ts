@@ -16,5 +16,6 @@ export class AuthController {
 
   @Post('/login_with_email')
   async loginWithEmail(@Body() { email, password }: LoginEmailDTO) {
+    return await this.authService.loginWithEmail(email, password);
   }
 }
