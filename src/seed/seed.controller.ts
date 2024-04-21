@@ -20,8 +20,5 @@ export class SeedController {
     console.log('===Finished seed v1')
   }
 
-  @Get('/test')
-  async testSeed() {
-    await this.seedService.test();
-  }
+
 }
