@@ -1,9 +1,9 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Category } from "../../category/entities/category.entity";
-import { Variant } from "../../variant/entities/variant.entity";
-import { Option } from "../../option/entities/option.entity";
+import { Category } from "./category.entity";
+import { Variant } from "./variant.entity";
+import { Option } from "./option.entity";
 import { Expose } from "class-transformer";
-import { Type } from "../../type/entities/type.entity";
+import { Type } from "./type.entity";
 
 @Entity()
 export class Product {

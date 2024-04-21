@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { Cart } from '../../cart/entities/cart.entity';
+import { Cart } from './cart.entity';
 import { Expose } from 'class-transformer';
 
 enum Gender {

@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Product } from '../../product/entities/product.entity';
+import { Product } from './product.entity';
 import { Expose } from 'class-transformer';
 
 @Entity()

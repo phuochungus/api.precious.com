@@ -1,9 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { Product } from "../product/entities/product.entity";
+import { Product } from "../entities/product.entity";
 import { DataSource, Repository } from "typeorm";
 import { InjectDataSource, InjectRepository } from "@nestjs/typeorm";
-import { Variant } from "./entities/variant.entity";
-import { VariantOptionValue } from "../variant-option-value/entity/variant_option_value.entity";
+import { Variant } from "../entities/variant.entity";
+import { VariantOptionValue } from "../entities/variant_option_value.entity";
 
 
 @Injectable()

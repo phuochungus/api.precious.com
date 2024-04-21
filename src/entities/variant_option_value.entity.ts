@@ -1,7 +1,7 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Variant } from "../../variant/entities/variant.entity";
-import { OptionValue } from "../../option/entities/option_value.entity";
-import { Option } from "../../option/entities/option.entity";
+import { Variant } from "./variant.entity";
+import { OptionValue } from "./option_value.entity";
+import { Option } from "./option.entity";
 
 
 @Entity()
@@ -15,7 +15,7 @@ export class VariantOptionValue {
 
     @Column()
     variant_id: number;
-    
+
     @ManyToOne(() => Option, option => option.variant_option_values, { eager: true })
     @JoinColumn({ name: 'option_id' })
     option: Option;

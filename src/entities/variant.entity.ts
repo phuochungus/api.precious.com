@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
-import { Product } from '../../product/entities/product.entity';
-import { VariantOptionValue } from '../../variant-option-value/entity/variant_option_value.entity';
+import { Product } from './product.entity';
+import { VariantOptionValue } from './variant_option_value.entity';
 import { Expose } from 'class-transformer';
 
 @Entity()

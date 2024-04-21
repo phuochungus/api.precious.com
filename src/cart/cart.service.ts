@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Cart } from './entities/cart.entity';
-import { CartItem } from './entities/cart_item.entity';
-import { Product } from '../product/entities/product.entity';
+import { Cart } from '../entities/cart.entity';
+import { CartItem } from '../entities/cart_item.entity';
+import { Product } from '../entities/product.entity';
 import { UpdateCartDTO } from './DTO/update.dto';
-import { Variant } from '../variant/entities/variant.entity';
+import { Variant } from '../entities/variant.entity';
 
 @Injectable()
 export class CartService {

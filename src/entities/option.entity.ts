@@ -1,7 +1,7 @@
-import { Code, Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { OptionValue } from "./option_value.entity";
-import { Product } from "../../product/entities/product.entity";
-import { VariantOptionValue } from "../../variant-option-value/entity/variant_option_value.entity";
+import { Product } from "./product.entity";
+import { VariantOptionValue } from "./variant_option_value.entity";
 
 @Entity()
 export class Option {

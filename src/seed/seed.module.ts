@@ -8,8 +8,8 @@ import { VariantModule } from '../variant/variant.module';
 import { OptionModule } from '../option/option.module';
 import { TypeModule } from '../type/type.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Product } from '../product/entities/product.entity';
-import { Variant } from '../variant/entities/variant.entity';
+import { Product } from '../entities/product.entity';
+import { Variant } from '../entities/variant.entity';
 
 @Module({
   imports: [FirebaseModule, ProductModule, CategoryModule, VariantModule, OptionModule, TypeModule, TypeOrmModule.forFeature([Product, Variant])],

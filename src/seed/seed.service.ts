@@ -11,10 +11,11 @@ import { VariantService } from '../variant/variant.service';
 import { CreateOptionDto } from '../option/dto/create_option.dto';
 import { OptionService } from '../option/option.service';
 import { TypeService } from '../type/type.service';
-import { Type } from '../type/entities/type.entity';
-import { Product } from '../product/entities/product.entity';
-import { Variant } from '../variant/entities/variant.entity';
+import { Type } from '../entities/type.entity';
+import { Product } from '../entities/product.entity';
+import { Variant } from '../entities/variant.entity';
 import * as path from 'path';
+import { building } from 'erdia'
 
 @Injectable()
 export class SeedService {
@@ -140,5 +141,19 @@ export class SeedService {
         } catch (error) {
             console.error('Failed to delete files:', error);
         }
+    }
+
+    async test() {
+        console.log(
+            await building({
+                dataSourcePath: __dirname + '/data-source.js',
+                output: './erd',
+                components: ['table', 'er'],
+                projectName: 'db',
+                format: 'md',
+                versionFrom: 'timestamp',
+                theme: 'default'
+            }, true)
+        )
     }
 }

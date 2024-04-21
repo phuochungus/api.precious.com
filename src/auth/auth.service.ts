@@ -1,7 +1,7 @@
 import { ForbiddenException, HttpException, Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../user/entities/user.entity';
+import { User } from '../entities/user.entity';
 import { getAuth } from 'firebase-admin/auth';
 import { StorageService } from '../firebase/storage.service';
 

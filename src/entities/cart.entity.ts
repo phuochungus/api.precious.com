@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 
 import { CartItem } from './cart_item.entity';
-import { User } from '../../user/entities/user.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Cart {
