@@ -3,6 +3,8 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   OneToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import { CartItem } from './cart_item.entity';
@@ -20,4 +22,10 @@ export class Cart {
     cascade: true,
   })
   items: CartItem[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

@@ -11,15 +11,15 @@ export class Option {
     @Column()
     name: string;
 
+    @Column()
+    product_id: number;
+
     @OneToMany(() => OptionValue, optionValue => optionValue.option, { eager: true, cascade: true })
     values: OptionValue[];
 
     @ManyToOne(() => Product, product => product.options)
     @JoinColumn({ name: "product_id" })
     product: Product;
-
-    @Column()
-    product_id: number;
 
     @OneToMany(() => VariantOptionValue, variantOptionValue => variantOptionValue.option)
     variant_option_values: VariantOptionValue[];
