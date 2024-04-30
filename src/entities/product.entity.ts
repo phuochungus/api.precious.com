@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Category } from "./category.entity";
 import { Variant } from "./variant.entity";
 import { Option } from "./option.entity";
@@ -28,6 +28,9 @@ export class Product {
     @Column()
     price: number;
 
+    @Column({ default: 0 })
+    quantity: number;
+
     @Column()
     category_id: number;
 
@@ -36,6 +39,7 @@ export class Product {
     types: Type[];
 
     @ManyToOne(() => Category, category => category.products)
+    @JoinColumn({ name: 'category_id' })
     category: Category;
 
     @OneToMany(() => Variant, variant => variant.product)
