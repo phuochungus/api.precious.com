@@ -13,6 +13,7 @@ import { VariantOptionValueModule } from './variant-option-value/variant-option-
 import { SeedModule } from './seed/seed.module';
 import { TypeModule } from './type/type.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     VariantOptionValueModule,
     SeedModule,
     TypeModule,
+    CheckoutModule,
   ],
   providers: [
     {

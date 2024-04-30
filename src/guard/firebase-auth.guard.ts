@@ -49,6 +49,7 @@ export class FirebaseAuthGuard implements CanActivate {
 
       return true;
     } catch (error) {
+      console.error(error);
       throw new UnauthorizedException('Failed to authenticate token');
     }
   }

@@ -1,14 +1,15 @@
-import { ForbiddenException, HttpException, Injectable, OnModuleInit } from '@nestjs/common';
+import * as common from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { getAuth } from 'firebase-admin/auth';
 import { StorageService } from '../firebase/storage.service';
+import { Cart } from 'src/entities/cart.entity';
 
 
 
-@Injectable()
-export class AuthService implements OnModuleInit {
+@common.Injectable()
+export class AuthService implements common.OnModuleInit {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
     private readonly storageService: StorageService,
@@ -48,6 +49,7 @@ export class AuthService implements OnModuleInit {
         });
         console.log(path);
         user.avatar_img_path = path;
+        user.cart = new Cart();
         await this.usersRepository.save(user);
         return await this.usersRepository.findOne({ where: { uid } });
       }
@@ -55,7 +57,7 @@ export class AuthService implements OnModuleInit {
       return user;
     } catch (error) {
       if (error.code === 'auth/id-token-expired') {
-        throw new ForbiddenException('Token expired');
+        throw new common.ForbiddenException('Token expired');
       }
       throw error;
     }

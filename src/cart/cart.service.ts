@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cart } from '../entities/cart.entity';
 import { CartItem } from '../entities/cart_item.entity';
-import { Product } from '../entities/product.entity';
 import { UpdateCartDTO } from './DTO/update.dto';
 import { Variant } from '../entities/variant.entity';
 
@@ -69,8 +68,8 @@ export class CartService {
     }
   }
 
-  getCart(userId: any) {
-    return this.cartRepository.findOne({
+  async getCart(userId: any) {
+    return  await this.cartRepository.findOne({
       where: { user: { id: userId } },
       relations: ['items', 'items.variant'],
     });

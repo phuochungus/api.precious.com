@@ -16,7 +16,7 @@ export class CartController {
     @Req() req,
     @Body() updateDto: UpdateCartDTO,
   ) {
-    const userId = req.user.id; // Assuming FirebaseAuthGuard attaches user info
+    const userId = req.user.id;
     return this.cartService.updateCartItems(userId, updateDto);
   }
 
@@ -30,6 +30,6 @@ export class CartController {
   @Get()
   async getCart(@Req() req) {
     const userId = req.user.id;
-    return this.cartService.getCart(userId);
+    return await this.cartService.getCart(userId);
   }
 }

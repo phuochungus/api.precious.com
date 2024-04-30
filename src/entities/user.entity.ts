@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'ty
 import { Cart } from './cart.entity';
 import { Expose } from 'class-transformer';
 
-enum Gender {
+export enum Gender {
   MALE,
   FEMALE,
 }
@@ -15,7 +15,7 @@ export class User {
   @Column({ unique: true })
   uid: string;
 
-  @OneToOne(() => Cart, (cart) => cart.user)
+  @OneToOne(() => Cart, (cart) => cart.user, { cascade: true })
   @JoinColumn()
   cart: Cart;
 
