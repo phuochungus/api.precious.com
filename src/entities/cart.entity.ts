@@ -23,9 +23,6 @@ export class Cart {
   })
   items: CartItem[];
 
-  @CreateDateColumn()
-  created_at: Date;
-
   @UpdateDateColumn()
   updated_at: Date;
 }
