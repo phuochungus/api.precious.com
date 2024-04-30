@@ -14,6 +14,7 @@ import { SeedModule } from './seed/seed.module';
 import { TypeModule } from './type/type.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CheckoutModule } from './checkout/checkout.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { CheckoutModule } from './checkout/checkout.module';
     SeedModule,
     TypeModule,
     CheckoutModule,
+    OrderModule,
   ],
   providers: [
     {

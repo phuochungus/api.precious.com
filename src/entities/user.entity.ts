@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Cart } from './cart.entity';
 import { Expose } from 'class-transformer';
+import { Order } from 'src/order/entities/order.entity';
 
 export enum Gender {
   MALE,
@@ -38,6 +39,9 @@ export class User {
 
   @Column('smallint', { nullable: true })
   age?: number;
+
+  @OneToMany(() => Order, order => order.user)
+  orders: Order[];
 
   @Expose()
   get avatar_img_path_url(): string {
