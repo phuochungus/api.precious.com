@@ -94,6 +94,7 @@ export class OrderService {
 
   async paid(id: number, redirectURL: string) {
     let order = await this.orderRepository.findOne({ where: { id: id }, relations: ['items'] });
+    if (!order) throw new NotFoundException(`Order with id ${id} not found`);
     if (order.is_paid) throw new ConflictException(`Order with id ${id} already paid`);
 
     let partnerCode = "MOMO";
