@@ -57,8 +57,8 @@ export class VariantService {
     return await this.variantsRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateVariantDto: UpdateVariantDto) {
-    return `This action updates a #${id} variant`;
+  async update(id: number, updateVariantDto: UpdateVariantDto) {
+    return await this.variantsRepository.update(id, updateVariantDto);
   }
 
   remove(id: number) {

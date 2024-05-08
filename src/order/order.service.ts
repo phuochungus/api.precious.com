@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { Order } from 'src/order/entities/order.entity';
+import { Order, OrderStatus } from 'src/order/entities/order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from 'src/entities/product.entity';
 import { Variant } from 'src/entities/variant.entity';
 import { UpdateStatusOrderDto } from 'src/order/dto/update-order.dto';
+import { CartItem } from 'src/entities/cart_item.entity';
 
 @Injectable()
 export class OrderService {
@@ -17,6 +18,7 @@ export class OrderService {
     await queryRunner.connect();
     try {
       await queryRunner.startTransaction();
+      let createItems: CartItem[] = [];
       for (let item of createOrderDto.items) {
         //check if items stock is available
         const variant = await queryRunner.manager.findOne(Variant, { where: { id: item.variant_id } })
@@ -29,9 +31,11 @@ export class OrderService {
         }
         //reduce stock
         variant.quantity -= item.quantity;
+        createItems.push(new CartItem());
         await queryRunner.manager.save(variant);
       }
-      result_id = (await queryRunner.manager.save(this.orderRepository.create(createOrderDto))).id;
+
+      let order = await this.orderRepository.save({ items: createItems, status: OrderStatus.PENDING, user_id: createOrderDto.user_id });
       await queryRunner.commitTransaction();
     } catch (err) {
       await queryRunner.rollbackTransaction();
@@ -64,7 +68,7 @@ export class OrderService {
           await queryRunner.manager.save(variant);
         }
         await queryRunner.commitTransaction();
-        
+
         return await this.orderRepository.save(order);
       } catch (err) {
         await queryRunner.rollbackTransaction();
