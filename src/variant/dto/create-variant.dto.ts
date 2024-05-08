@@ -10,4 +10,8 @@ export class CreateVariantDto {
     @Type(() => Number)
     @IsInt()
     product_id: number;
+
+    @IsInt()
+    @Min(0)
+    quantity: number;
 }

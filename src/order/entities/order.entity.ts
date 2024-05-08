@@ -1,9 +1,9 @@
 import { Expose } from "class-transformer";
 import { CartItem } from "src/entities/cart_item.entity";
 import { User } from "src/entities/user.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-enum OrderStatus {
+export enum OrderStatus {
     PENDING = "PENDING",
     PROCESSING = "PROCESSING",
     COMPLETED = "COMPLETED",
@@ -15,8 +15,12 @@ export class Order {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => User, (user) => user.orders)
+    @ManyToOne(() => User, (user) => user.orders, { nullable: false })
+    @JoinColumn({ name: "user_id" })
     user: User;
+
+    @Column()
+    user_id: number;
 
     @OneToMany(() => CartItem, (cartItem) => cartItem.cart, {
         cascade: true,

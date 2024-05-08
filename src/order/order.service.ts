@@ -1,26 +1,76 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import { Order } from 'src/order/entities/order.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Product } from 'src/entities/product.entity';
+import { Variant } from 'src/entities/variant.entity';
+import { UpdateStatusOrderDto } from 'src/order/dto/update-order.dto';
 
 @Injectable()
 export class OrderService {
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+  constructor(@InjectRepository(Order) private orderRepository: Repository<Order>) { }
+
+  async create(createOrderDto: CreateOrderDto) {
+    let result_id: number = null;
+    const queryRunner = this.orderRepository.manager.connection.createQueryRunner();
+    await queryRunner.connect();
+    try {
+      await queryRunner.startTransaction();
+      for (let item of createOrderDto.items) {
+        //check if items stock is available
+        const variant = await queryRunner.manager.findOne(Variant, { where: { id: item.variant_id } })
+        if (!variant) {
+          throw new NotFoundException(`Variant with id ${item.variant_id} not found`)
+        }
+
+        if (variant.quantity < item.quantity) {
+          throw new NotFoundException(`Stock not available for variant with id ${item.variant_id}`)
+        }
+        //reduce stock
+        variant.quantity -= item.quantity;
+        await queryRunner.manager.save(variant);
+      }
+      result_id = (await queryRunner.manager.save(this.orderRepository.create(createOrderDto))).id;
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
+    }
+    return await this.orderRepository.findOne({ where: { id: result_id } });
   }
 
-  findAll() {
-    return `This action returns all order`;
+  async findAll() {
+    return await this.orderRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    return await this.orderRepository.findOne({ where: { id: id } });
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateStatusOrderDto) {
+    let order = await this.orderRepository.findOne({ where: { id: id } });
+    order.status = updateOrderDto.status;
+    if (updateOrderDto.status === 'CANCELLED') {
+      const queryRunner = this.orderRepository.manager.connection.createQueryRunner();
+      await queryRunner.connect();
+      try {
+        await queryRunner.startTransaction();
+        for (let item of order.items) {
+          const variant = await queryRunner.manager.findOne(Variant, { where: { id: item.variant.id } })
+          variant.quantity += item.quantity;
+          await queryRunner.manager.save(variant);
+        }
+        await queryRunner.commitTransaction();
+        
+        return await this.orderRepository.save(order);
+      } catch (err) {
+        await queryRunner.rollbackTransaction();
+      } finally {
+        await queryRunner.release();
+      }
+    }
   }
 }

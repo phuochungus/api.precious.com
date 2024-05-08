@@ -3,7 +3,8 @@ import {
     IsNumber,
     Min,
 } from 'class-validator';
-class CartObject {
+import { Type } from 'class-transformer';
+export class CartObject {
     @IsNumber()
     @Min(0)
     variant_id: number;
@@ -12,7 +13,6 @@ class CartObject {
     @Min(1)
     quantity: number;
 }
-import { Type } from 'class-transformer';
 
 export class UpdateCartDTO {
     @IsArray()

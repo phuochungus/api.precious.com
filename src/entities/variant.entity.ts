@@ -24,6 +24,9 @@ export class Variant {
     @OneToMany(() => VariantOptionValue, variantOptionValue => variantOptionValue.variant)
     variant_option_values: VariantOptionValue[];
 
+    @Column({ default: 0 })
+    quantity: number = 0;
+
     @Expose()
     get img_paths_url() {
         return this.img_paths.map(path => `https://storage.googleapis.com/${process.env.STORAGE_BUCKET_NAME}/${path}`);
