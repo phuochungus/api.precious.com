@@ -14,8 +14,8 @@ export class AuthController {
     return await this.authService.validateUser(idToken);
   }
 
-  @Post('/login_with_email')
-  async loginWithEmail(@Body() { email, password }: LoginEmailDTO) {
-    return await this.authService.loginWithEmail(email, password);
+  @Post('/create_token_from_email')
+  async loginWithEmail(@Body() { email }: LoginEmailDTO) {
+    return await this.authService.loginWithEmail(email);
   }
 }

@@ -22,7 +22,7 @@ export class Product {
     @Column("text", { array: true, default: [] })
     img_paths: string[];
 
-    @Column()
+    @Column({ type: 'float' })
     rating: number;
 
     @Column()

@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, ForbiddenException, Get, Param, Put, Req } from "@nestjs/common";
+import { Body, Controller, Delete, ForbiddenException, Get, Param, Post, Put, Req } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { ApiTags } from "@nestjs/swagger";
 import { UpdateUserDto } from "src/user/dto/update-user-dto";
+import { CreateUserDto } from "src/user/dto/create-user.dto";
 
 @Controller('user')
 @ApiTags('User')
@@ -28,4 +29,8 @@ export class UserController {
         return await this.userService.update(id, updateUserDto);
     }
 
+    @Post()
+    async create(@Body() createUserDto: CreateUserDto) {
+        return await this.userService.create(createUserDto);
+    }
 }

@@ -10,9 +10,19 @@ import { TypeModule } from '../type/type.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from '../entities/product.entity';
 import { Variant } from '../entities/variant.entity';
+import { AdminModule } from 'src/admin/admin.module';
 
 @Module({
-  imports: [FirebaseModule, ProductModule, CategoryModule, VariantModule, OptionModule, TypeModule, TypeOrmModule.forFeature([Product, Variant])],
+  imports: [
+    FirebaseModule,
+    ProductModule,
+    CategoryModule,
+    VariantModule,
+    OptionModule,
+    TypeModule,
+    TypeOrmModule.forFeature([Product, Variant]),
+    AdminModule,
+  ],
   controllers: [SeedController],
   providers: [SeedService],
 })

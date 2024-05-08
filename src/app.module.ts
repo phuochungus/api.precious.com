@@ -13,8 +13,9 @@ import { VariantOptionValueModule } from './variant-option-value/variant-option-
 import { SeedModule } from './seed/seed.module';
 import { TypeModule } from './type/type.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { CheckoutModule } from './checkout/checkout.module';
 import { OrderModule } from './order/order.module';
+import { AppController } from 'src/app.controller';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -39,8 +40,8 @@ import { OrderModule } from './order/order.module';
     VariantOptionValueModule,
     SeedModule,
     TypeModule,
-    CheckoutModule,
     OrderModule,
+    AdminModule,
   ],
   providers: [
     {
@@ -48,5 +49,6 @@ import { OrderModule } from './order/order.module';
       useClass: ClassSerializerInterceptor,
     },
   ],
+  controllers: [AppController],
 })
 export class AppModule { }

@@ -1,7 +1,8 @@
 import { Expose } from "class-transformer";
 import { CartItem } from "src/entities/cart_item.entity";
+import { OrderItem } from "src/entities/order_item.entity";
 import { User } from "src/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 export enum OrderStatus {
     PENDING = "PENDING",
@@ -15,20 +16,24 @@ export class Order {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => User, (user) => user.orders, { nullable: false })
+    @ManyToOne(() => User, (user) => user.orders, { nullable: false, cascade: ['insert'] })
     @JoinColumn({ name: "user_id" })
     user: User;
 
     @Column()
     user_id: number;
 
-    @OneToMany(() => CartItem, (cartItem) => cartItem.cart, {
-        cascade: true,
-    })
-    items: CartItem[];
+    @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: true })
+    items: OrderItem[];
 
     @Column({ type: "enum", enum: OrderStatus, default: OrderStatus.PENDING })
     status: OrderStatus;
+
+    @Column({ default: false })
+    is_paid: boolean = false
+
+    @CreateDateColumn()
+    created_at: Date;
 
     @Expose()
     get total_price(): number {

@@ -5,6 +5,7 @@ import { User } from '../entities/user.entity';
 import { getAuth } from 'firebase-admin/auth';
 import { StorageService } from '../firebase/storage.service';
 import { Cart } from 'src/entities/cart.entity';
+import { Admin } from 'src/entities/admin.entity';
 
 
 
@@ -12,6 +13,7 @@ import { Cart } from 'src/entities/cart.entity';
 export class AuthService implements common.OnModuleInit {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(Admin) private adminRepository: Repository<Admin>,
     private readonly storageService: StorageService,
 
   ) { }
@@ -25,19 +27,19 @@ export class AuthService implements common.OnModuleInit {
   private createAvatar: any;
   private initials: any;
 
-  async validateUser(idToken: string): Promise<User> {
+  async validateUser(idToken: string): Promise<User | Admin> {
     try {
       const decodedToken = await getAuth().verifyIdToken(idToken);
       const uid = decodedToken.uid;
 
       let user = await this.usersRepository.findOne({ where: { uid } });
+      let admin = await this.adminRepository.findOne({ where: { uid } });
+      if (admin) {
+        return admin;
+      }
       if (!user) {
         user = await this.usersRepository.save({ uid });
-
-
-        const avatarSVG = await this.createAvatar(this.initials, {
-          seed: decodedToken.name || decodedToken.email,
-        }).toArrayBuffer();
+        const avatarSVG = await this.createAvatar(this.initials, { seed: decodedToken.name || decodedToken.email }).toArrayBuffer();
 
         const path = await this.storageService.uploadFile({
           file: {
@@ -63,7 +65,7 @@ export class AuthService implements common.OnModuleInit {
     }
   }
 
-  async loginWithEmail(email: string, password: string) {
+  async loginWithEmail(email: string) {
     const user = await getAuth().getUserByEmail(email);
     const token = await getAuth().createCustomToken(user.uid);
 

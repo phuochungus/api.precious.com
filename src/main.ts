@@ -7,7 +7,7 @@ import 'reflect-metadata';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', { exclude: ['/commit'] });
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
   }));

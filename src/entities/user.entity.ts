@@ -7,12 +7,6 @@ export enum Gender {
   MALE,
   FEMALE,
 }
-
-export enum Role {
-  USER,
-  ADMIN,
-}
-
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -33,9 +27,6 @@ export class User {
 
   @Column({ nullable: true })
   email?: string;
-
-  @Column({ type: 'enum', enum: Role, default: Role.USER })
-  role: Role;
 
   @Column('smallint', { nullable: true })
   age?: number;

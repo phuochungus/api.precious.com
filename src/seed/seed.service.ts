@@ -15,6 +15,8 @@ import { Type } from '../entities/type.entity';
 import { Product } from '../entities/product.entity';
 import { Variant } from '../entities/variant.entity';
 import * as path from 'path';
+import { AdminService } from 'src/admin/admin.service';
+import { Role } from 'src/entities/admin.entity';
 
 @Injectable()
 export class SeedService {
@@ -22,11 +24,12 @@ export class SeedService {
         private readonly storageService: StorageService,
         private readonly productService: ProductService,
         private readonly categoryService: CategoryService,
-        @InjectDataSource() private readonly dataSource: DataSource,
         private readonly variantFactory: VariantFactory,
         private readonly variantService: VariantService,
         private readonly optionService: OptionService,
         private readonly typeService: TypeService,
+        private readonly adminService: AdminService,
+        @InjectDataSource() private readonly dataSource: DataSource,
         @InjectRepository(Product) private readonly productRepository: Repository<Product>,
         @InjectRepository(Variant) private readonly variantRepository: Repository<Variant>,
     ) { }
@@ -90,6 +93,7 @@ export class SeedService {
     }
 
     async startV1() {
+        await this.createAdmin();
         console.log('===Starting seed v1');
         const ringImgs = readdirSync(path.join(process.cwd(), 'src/seed/images/rings')).map(file => this.mockMulterFromFile(path.join(process.cwd(), 'src/seed/images/rings', file)));
 
@@ -131,6 +135,10 @@ export class SeedService {
         }
     }
 
+    private async createAdmin() {
+        return await this.adminService.create({ uid: 'uMtcOEqJF2YASucnOqDGCbdc7sP2', role: Role.SUPER_ADMIN });
+
+    }
     async deleteAllFilesInBucket() {
         const bucket = this.storageService.firebaseService.getStorage().bucket();
 
@@ -143,4 +151,6 @@ export class SeedService {
             console.error('Failed to delete files:', error);
         }
     }
+
+
 }

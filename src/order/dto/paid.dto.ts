@@ -1,6 +1,6 @@
 import { IsString } from "class-validator";
 
-export class LoginEmailDTO {
+export class RedirectURLDto {
     @IsString()
-    email: string;
+    redirectURL: string;
 }
