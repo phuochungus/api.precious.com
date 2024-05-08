@@ -1,5 +1,5 @@
 import { Variant } from "src/entities/variant.entity";
-import { Order } from "src/order/entities/order.entity";
+import { Order } from "src/entities/order.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

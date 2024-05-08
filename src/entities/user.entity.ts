@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Cart } from './cart.entity';
 import { Expose } from 'class-transformer';
-import { Order } from 'src/order/entities/order.entity';
+import { Order } from 'src/entities/order.entity';
 
 export enum Gender {
   MALE,
