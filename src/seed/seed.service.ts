@@ -111,7 +111,7 @@ export class SeedService {
             // Create product
             let product = await this.productService.create({
                 name: faker.lorem.word(),
-                price: 999999999999,
+                price: 999999999,
                 category_id: Rings,
                 short_description: faker.lorem.sentence({ min: 2, max: 3 }),
                 rating: faker.number.float({ min: 3, max: 5, multipleOf: 0.5 }),
