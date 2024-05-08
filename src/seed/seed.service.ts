@@ -111,7 +111,7 @@ export class SeedService {
             // Create product
             let product = await this.productService.create({
                 name: faker.lorem.word(),
-                price: 0,
+                price: 999999999999,
                 category_id: Rings,
                 short_description: faker.lorem.sentence({ min: 2, max: 3 }),
                 rating: faker.number.float({ min: 3, max: 5, multipleOf: 0.5 }),
@@ -125,7 +125,7 @@ export class SeedService {
 
             for (let variant of variants) {
                 variant = await this.variantService.uploadImage(variant.id, faker.helpers.arrayElements(ringImgs, { min: 1, max: 3 }));
-                variant.price = faker.number.float({ min: 100000, max: 49000000, multipleOf: 10000 })
+                variant.price = faker.number.float({ min: 100000, max: 49000000, multipleOf: 100000 })
                 product.price = Math.min(variant.price, product.price);
                 variant.quantity = 10000;
                 await this.variantRepository.save(variant);
