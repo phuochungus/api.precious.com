@@ -43,7 +43,7 @@ export class VariantFactory {
             for (let i = 0; i < cartesianArr.length; i++) {
                 let variant = await this.variantRepository.save({
                     product_id: product.id,
-                    price: product.price,
+                    price: 0,
                 })
                 for (let j = 0; j < cartesianArr[i].length; j++) {
                     await this.variantOptionValueRepository.save({

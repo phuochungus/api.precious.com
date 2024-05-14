@@ -22,11 +22,6 @@ export class CreateProductDto {
     @Min(1)
     category_id: number;
 
-    @Type(() => Number)
-    @IsNumber()
-    @Min(0)
-    price: number;
-
     @IsOptional()
     @IsInt()
     @Min(0)
