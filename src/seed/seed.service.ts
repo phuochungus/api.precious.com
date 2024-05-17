@@ -89,7 +89,7 @@ export class SeedService {
         const options = [this.MATERIAL_OPTION, this.GEM_OPTION, this.COLOR_OPTION, this.SIZE_OPTION];
         options.forEach(option => option.product_id = product_id);
         options.forEach(option => option.values = faker.helpers.shuffle(faker.helpers.arrayElements(option.values, { min: 2, max: option.values.length })));
-        return faker.helpers.arrayElements(options, { min: 0, max: options.length });
+        return faker.helpers.arrayElements(options, { min: 1, max: options.length });
     }
 
     async startV1() {
@@ -117,6 +117,7 @@ export class SeedService {
                 description: faker.lorem.sentence({ min: 5, max: 10 }),
             }, faker.helpers.arrayElements(ringImgs, { min: 2, max: 5 }));
             let options = await this.createRandomOptions(product.id);
+
             let promises = options.map(async option => { await this.optionService.createOption(option) });
             await Promise.all(promises)
             let variants = await this.variantFactory.createVariants(product.id);

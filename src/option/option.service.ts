@@ -11,6 +11,10 @@ export class OptionService {
         private optionRepository: Repository<Option>
     ) { }
 
+    async findAll() {
+        return await this.optionRepository.find();
+    }
+
     async createOption(createOptionDto: CreateOptionDto) {
         return await this.optionRepository.save(createOptionDto);
     }
