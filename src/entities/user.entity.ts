@@ -8,6 +8,13 @@ export enum Gender {
   MALE,
   FEMALE,
 }
+
+
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  USER = 'USER'
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -40,6 +47,9 @@ export class User {
 
   @Column({ nullable: true })
   phone_number: string;
+
+  @Column({ enum: UserRole, default: UserRole.USER })
+  userRole: UserRole;
 
   @Expose()
   get avatar_img_path_url(): string {
