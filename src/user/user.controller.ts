@@ -21,6 +21,11 @@ export class UserController {
         return await this.userService.findByUid(uid);
     }
 
+    @Get("/find_by_id/:id")
+    async findById(@Param('id') id: number) {
+        return await this.userService.findById(id);
+    }
+
 
     @Delete("/:id")
     async delete(@Param('id') id: number) {
