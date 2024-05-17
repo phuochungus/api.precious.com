@@ -126,8 +126,8 @@ export class SeedService {
             for (let variant of variants) {
                 variant = await this.variantService.uploadImage(variant.id, faker.helpers.arrayElements(ringImgs, { min: 1, max: 3 }));
                 variant.price = faker.number.int({ min: 1, max: 490 }) * 100000;
-                product.price = Math.min(variant.price, product.price || 99999999);
                 variant.quantity = 10000;
+                if (!product.price || product.price == 0) product.price = variant.price;
                 await this.variantRepository.save(variant);
             }
             await this.productRepository.save(product);
