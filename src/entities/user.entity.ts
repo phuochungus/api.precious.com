@@ -38,6 +38,9 @@ export class User {
   @OneToMany(() => Address, address => address.user)
   addresses: Address[];
 
+  @Column({ nullable: true })
+  phone_number: string;
+
   @Expose()
   get avatar_img_path_url(): string {
     if (this.avatar_img_path)
