@@ -26,6 +26,7 @@ export class OrderService {
 
       for (let item of createOrderDto.items) {
         const variant = await queryRunner.manager.findOne(Variant, { where: { id: item.variant_id } })
+        const product = await queryRunner.manager.findOne(Product, { where: { id: variant.product_id } })
         if (!variant) {
           throw new NotFoundException(`Variant with id ${item.variant_id} not found`)
         }
@@ -34,6 +35,7 @@ export class OrderService {
           throw new NotFoundException(`Stock not available for variant with id ${item.variant_id}`)
         }
         variant.quantity -= item.quantity;
+        product.quantity -= item.quantity;
 
         await queryRunner.manager.save(variant);
         let cartItem = new OrderItem();

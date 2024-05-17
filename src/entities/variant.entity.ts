@@ -8,6 +8,9 @@ export class Variant {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Column()
+    name: string;
+
     @Column("text", { array: true, default: [] })
     img_paths: string[];
 

@@ -15,6 +15,10 @@ export class OptionService {
         return await this.optionRepository.find();
     }
 
+    async deleteOption(id: number) {
+        return await this.optionRepository.softDelete(id);
+    }
+
     async createOption(createOptionDto: CreateOptionDto) {
         return await this.optionRepository.save(createOptionDto);
     }

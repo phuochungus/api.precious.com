@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { OptionService } from './option.service';
 import { CreateOptionDto } from './dto/create_option.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -11,7 +11,11 @@ export class OptionController {
   @Get()
   async findAll() {
     return await this.optionService.findAll();
-  
+  }
+
+  @Delete("/:id")
+  async deleteOption(@Param('id') id: number) {
+    return await this.optionService.deleteOption(id);
   }
 
   @Post()
