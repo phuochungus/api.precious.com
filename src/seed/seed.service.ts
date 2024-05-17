@@ -15,8 +15,9 @@ import { Type } from '../entities/type.entity';
 import { Product } from '../entities/product.entity';
 import { Variant } from '../entities/variant.entity';
 import * as path from 'path';
-import { AdminService } from 'src/admin/admin.service';
 import { Role } from 'src/entities/admin.entity';
+import { UserService } from 'src/user/user.service';
+import { UserRole } from 'src/entities/user.entity';
 
 @Injectable()
 export class SeedService {
@@ -28,7 +29,7 @@ export class SeedService {
         private readonly variantService: VariantService,
         private readonly optionService: OptionService,
         private readonly typeService: TypeService,
-        private readonly adminService: AdminService,
+        private readonly userService: UserService,
         @InjectDataSource() private readonly dataSource: DataSource,
         @InjectRepository(Product) private readonly productRepository: Repository<Product>,
         @InjectRepository(Variant) private readonly variantRepository: Repository<Variant>,
@@ -136,9 +137,9 @@ export class SeedService {
     }
 
     private async createAdmin() {
-        return await this.adminService.create({ uid: 'uMtcOEqJF2YASucnOqDGCbdc7sP2', role: Role.SUPER_ADMIN });
-
+        return await this.userService.create({ uid: 'uMtcOEqJF2YASucnOqDGCbdc7sP2', userRole: UserRole.ADMIN });
     }
+    
     async deleteAllFilesInBucket() {
         const bucket = this.storageService.firebaseService.getStorage().bucket();
 

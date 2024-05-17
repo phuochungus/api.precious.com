@@ -15,7 +15,6 @@ import { TypeModule } from './type/type.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { OrderModule } from './order/order.module';
 import { AppController } from 'src/app.controller';
-import { AdminModule } from './admin/admin.module';
 import { AddressModule } from './address/address.module';
 
 @Module({
@@ -42,7 +41,6 @@ import { AddressModule } from './address/address.module';
     SeedModule,
     TypeModule,
     OrderModule,
-    AdminModule,
     AddressModule,
   ],
   providers: [

@@ -10,7 +10,7 @@ import { TypeModule } from '../type/type.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from '../entities/product.entity';
 import { Variant } from '../entities/variant.entity';
-import { AdminModule } from 'src/admin/admin.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { AdminModule } from 'src/admin/admin.module';
     OptionModule,
     TypeModule,
     TypeOrmModule.forFeature([Product, Variant]),
-    AdminModule,
+    UserModule
   ],
   controllers: [SeedController],
   providers: [SeedService],
