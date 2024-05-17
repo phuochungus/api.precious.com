@@ -35,6 +35,10 @@ export class Order {
     @Column({ nullable: true })
     address?: string;
 
+
+    @Column({ nullable: true })
+    phone_number?: string;
+
     @CreateDateColumn()
     created_at: Date;
 
