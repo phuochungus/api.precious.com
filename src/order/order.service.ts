@@ -21,6 +21,7 @@ export class OrderService {
       let order = new Order();
       order.status = OrderStatus.PENDING;
       order.user_id = createOrderDto.user_id;
+      order.address = createOrderDto.address;
       order.items = [];
 
       for (let item of createOrderDto.items) {

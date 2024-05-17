@@ -32,6 +32,9 @@ export class Order {
     @Column({ default: false })
     is_paid: boolean = false
 
+    @Column({ nullable: true })
+    address?: string;
+
     @CreateDateColumn()
     created_at: Date;
 

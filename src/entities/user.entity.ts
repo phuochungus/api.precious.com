@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany
 import { Cart } from './cart.entity';
 import { Expose } from 'class-transformer';
 import { Order } from 'src/entities/order.entity';
+import { Address } from 'src/entities/address.entity';
 
 export enum Gender {
   MALE,
@@ -33,6 +34,9 @@ export class User {
 
   @OneToMany(() => Order, order => order.user)
   orders: Order[];
+
+  @OneToMany(() => Address, address => address.user)
+  addresses: Address[];
 
   @Expose()
   get avatar_img_path_url(): string {

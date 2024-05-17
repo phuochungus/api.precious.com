@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsInt } from "class-validator";
+import { IsArray, IsInt, IsString } from "class-validator";
 import { CartObject } from "src/cart/DTO/update.dto";
 
 export class CreateOrderItemDto extends CartObject {
@@ -13,5 +13,8 @@ export class CreateOrderDto {
 
     @IsInt()
     user_id: number;
+
+    @IsString()
+    address: string;
 }
 
