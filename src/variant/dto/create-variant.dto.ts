@@ -13,5 +13,6 @@ export class CreateVariantDto {
 
     @IsInt()
     @Min(0)
+    @Type(() => Number)
     quantity: number;
 }
