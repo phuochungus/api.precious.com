@@ -10,32 +10,32 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 export class VariantController {
   constructor(private readonly variantService: VariantService) { }
 
-  @ApiConsumes('multipart/form-data')
-  @ApiExtraModels(CreateVariantDto)
-  @ApiBody({
-    schema: {
-      allOf: [
-        { $ref: getSchemaPath(CreateVariantDto) },
-        {
-          type: 'object',
-          properties: {
-            "img[]": {
-              type: 'array',
-              items: {
-                type: 'string',
-                format: 'binary',
-              },
-            },
-          },
-        },
-      ]
-    }
-  })
-  @Post()
-  @UseInterceptors(FilesInterceptor('img[]'))
-  create(@UploadedFiles() files: any, @Body() createVariantDto: CreateVariantDto) {
-    return this.variantService.create(createVariantDto, files);
-  }
+  // @ApiConsumes('multipart/form-data')
+  // @ApiExtraModels(CreateVariantDto)
+  // @ApiBody({
+  //   schema: {
+  //     allOf: [
+  //       { $ref: getSchemaPath(CreateVariantDto) },
+  //       {
+  //         type: 'object',
+  //         properties: {
+  //           "img[]": {
+  //             type: 'array',
+  //             items: {
+  //               type: 'string',
+  //               format: 'binary',
+  //             },
+  //           },
+  //         },
+  //       },
+  //     ]
+  //   }
+  // })
+  // @Post()
+  // @UseInterceptors(FilesInterceptor('img[]'))
+  // create(@UploadedFiles() files: any, @Body() createVariantDto: CreateVariantDto) {
+  //   return this.variantService.create(createVariantDto, files);
+  // }
 
   @Post('create_variants_for_product/:id')
   async createVariantsForProduct(@Param('id') id: string) {

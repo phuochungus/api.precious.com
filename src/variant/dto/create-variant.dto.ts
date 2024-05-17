@@ -1,11 +1,14 @@
 import { Type } from "class-transformer";
-import { IsInt, IsNumber, Min } from "class-validator";
+import { IsInt, IsNumber, IsString, Min } from "class-validator";
 
 export class CreateVariantDto {
     @Type(() => Number)
     @IsNumber()
     @Min(0)
     price: number;
+
+    @IsString()
+    name: string;
 
     @Type(() => Number)
     @IsInt()
