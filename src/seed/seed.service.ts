@@ -121,7 +121,9 @@ export class SeedService {
             product.options = []
             let options = await this.createRandomOptions(product.id);
             for (let option of options) {
-                await this.dataSource.getRepository(Option).save(option);
+                console.log('===Creating option', option);
+                let savedOption = await this.dataSource.getRepository(Option).save(option);
+                console.log('===Saved option', savedOption);
             }
 
             let variants = await this.variantFactory.createVariants(product.id);
