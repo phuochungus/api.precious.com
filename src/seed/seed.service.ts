@@ -45,30 +45,6 @@ export class SeedService {
     private SIZES = ['1', '2', '3', '4'];
     private TYPES = ["New Arrive", "Popular"]
 
-    private MATERIAL_OPTION: CreateOptionDto = {
-        product_id: -1,
-        name: 'Material',
-        values: this.MATERIALS.map(material => ({ value: material }))
-    }
-
-    private GEM_OPTION: CreateOptionDto = {
-        product_id: -1,
-        name: 'Gem',
-        values: this.GEMS.map(gem => ({ value: gem }))
-    }
-
-    private COLOR_OPTION: CreateOptionDto = {
-        product_id: -1,
-        name: 'Color',
-        values: this.COLORS.map(color => ({ value: color }))
-    }
-
-    private SIZE_OPTION: CreateOptionDto = {
-        product_id: -1,
-        name: 'Size',
-        values: this.SIZES.map(size => ({ value: size }))
-    }
-
 
     mockMulterFromFile = (filePath: string) => {
         const fileBuffer = readFileSync(filePath);
@@ -88,9 +64,33 @@ export class SeedService {
     }
 
     async createRandomOptions(product_id: number) {
-        const options = [this.MATERIAL_OPTION, this.GEM_OPTION, this.COLOR_OPTION, this.SIZE_OPTION];
-        options.forEach(option => option.product_id = product_id);
-        options.forEach(option => option.values = faker.helpers.shuffle(faker.helpers.arrayElements(option.values, { min: 2, max: option.values.length })));
+        const options = [{
+            product_id,
+            name: 'Material',
+            values: this.MATERIALS.map(material => ({ value: material })),
+        }, {
+            product_id,
+            name: 'Gem',
+            values: this.GEMS.map(gem => ({ value: gem }))
+        }, {
+            product_id,
+            name: 'Color',
+            values: this.COLORS.map(color => ({ value: color }))
+        }, {
+            product_id,
+            name: 'Size',
+            values: this.SIZES.map(size => ({ value: size }))
+        }];
+        for (let i = 0; i < options.length; i++) {
+            options[i] = { ...options[i] };
+            options[i].product_id = product_id;
+            for (let j = 0; j < options[i].values.length; j++) {
+                options[i].values[j] = { ...options[i].values[j] };
+            }
+            options[i].values = faker.helpers.shuffle(options[i].values);
+            options[i].values = faker.helpers.arrayElements(options[i].values, { min: 2, max: options[i].values.length });
+        }
+
         return faker.helpers.arrayElements(options, { min: 1, max: options.length });
     }
 
@@ -118,7 +118,6 @@ export class SeedService {
                 rating: faker.number.float({ min: 3, max: 5, multipleOf: 0.5 }),
                 description: faker.lorem.sentence({ min: 5, max: 10 }),
             }, faker.helpers.arrayElements(ringImgs, { min: 2, max: 5 }));
-            product.options = []
             let options = await this.createRandomOptions(product.id);
             for (let option of options) {
                 console.log('===Creating option', option);
@@ -136,7 +135,7 @@ export class SeedService {
                 if (!product.price || product.price == 0) product.price = variant.price;
                 await this.variantRepository.save(variant);
             }
-            await this.productRepository.save(product);
+            await this.productRepository.update({ id: product.id }, { price: product.price })
             console.log('===Product created', i);
         }
     }

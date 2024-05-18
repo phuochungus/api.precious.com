@@ -14,7 +14,7 @@ export class Option {
     @Column()
     product_id: number;
 
-    @OneToMany(() => OptionValue, optionValue => optionValue.option, { eager: true, cascade: true })
+    @OneToMany(() => OptionValue, optionValue => optionValue.option, { eager: true, cascade: ["insert"] })
     values: OptionValue[];
 
     @ManyToOne(() => Product, product => product.options)
