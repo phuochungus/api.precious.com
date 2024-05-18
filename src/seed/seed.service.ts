@@ -18,6 +18,7 @@ import * as path from 'path';
 import { Role } from 'src/entities/admin.entity';
 import { UserService } from 'src/user/user.service';
 import { UserRole } from 'src/entities/user.entity';
+import { Option } from 'src/entities/option.entity';
 
 @Injectable()
 export class SeedService {
@@ -120,7 +121,7 @@ export class SeedService {
             product.options = []
             let options = await this.createRandomOptions(product.id);
             for (let option of options) {
-                product.options.push(await this.optionService.createOption(option))
+                await this.dataSource.getRepository(Option).save(option);
             }
 
             let variants = await this.variantFactory.createVariants(product.id);
