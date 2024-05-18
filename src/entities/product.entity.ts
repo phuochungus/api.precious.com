@@ -45,7 +45,7 @@ export class Product {
     @OneToMany(() => Variant, variant => variant.product)
     variants: Variant[];
 
-    @OneToMany(() => Option, option => option.product)
+    @OneToMany(() => Option, option => option.product, { cascade: true })
     options: Option[];
 
     @DeleteDateColumn()

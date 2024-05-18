@@ -117,10 +117,12 @@ export class SeedService {
                 rating: faker.number.float({ min: 3, max: 5, multipleOf: 0.5 }),
                 description: faker.lorem.sentence({ min: 5, max: 10 }),
             }, faker.helpers.arrayElements(ringImgs, { min: 2, max: 5 }));
+            product.options = []
             let options = await this.createRandomOptions(product.id);
+            for (let option of options) {
+                product.options.push(await this.optionService.createOption(option))
+            }
 
-            let promises = options.map(async option => { await this.optionService.createOption(option) });
-            await Promise.all(promises)
             let variants = await this.variantFactory.createVariants(product.id);
             product.types = faker.helpers.arrayElements(Types, { min: 1, max: Types.length });
 
@@ -139,7 +141,7 @@ export class SeedService {
     private async createAdmin() {
         return await this.userService.create({ uid: 'uMtcOEqJF2YASucnOqDGCbdc7sP2', userRole: UserRole.ADMIN });
     }
-    
+
     async deleteAllFilesInBucket() {
         const bucket = this.storageService.firebaseService.getStorage().bucket();
 
