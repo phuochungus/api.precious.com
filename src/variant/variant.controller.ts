@@ -4,11 +4,14 @@ import { CreateVariantDto } from './dto/create-variant.dto';
 import { UpdateVariantDto } from './dto/update-variant.dto';
 import { ApiBody, ApiConsumes, ApiExtraModels, ApiTags, getSchemaPath } from '@nestjs/swagger';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { ProductService } from 'src/product/product.service';
 
 @ApiTags('Variant')
 @Controller('variant')
 export class VariantController {
-  constructor(private readonly variantService: VariantService) { }
+  constructor(
+    private readonly variantService: VariantService,
+    private readonly productService: ProductService) { }
 
   // @ApiConsumes('multipart/form-data')
   // @ApiExtraModels(CreateVariantDto)
@@ -38,8 +41,9 @@ export class VariantController {
   // }
 
   @Post('create_variants_for_product/:id')
-  async createVariantsForProduct(@Param('id') id: string) {
-    return await this.variantService.createVariantsForProduct(+id);
+  async createVariantsForProduct(@Param('id') id: number) {
+    await this.variantService.createVariantsForProduct(id);
+    return await this.productService.findOne(id);
   }
 
   @Get()

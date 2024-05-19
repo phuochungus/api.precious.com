@@ -7,9 +7,10 @@ import { FirebaseModule } from '../firebase/firebase.module';
 import { Product } from '../entities/product.entity';
 import { VariantFactory } from './variant.factory';
 import { VariantOptionValue } from '../entities/variant_option_value.entity';
+import { ProductModule } from 'src/product/product.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Variant, Product, VariantOptionValue]), FirebaseModule],
+  imports: [TypeOrmModule.forFeature([Variant, Product, VariantOptionValue]), FirebaseModule, ProductModule],
   controllers: [VariantController],
   providers: [VariantService, VariantFactory],
   exports: [VariantService, VariantFactory]
