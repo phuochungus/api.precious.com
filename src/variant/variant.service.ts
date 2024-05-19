@@ -30,7 +30,8 @@ export class VariantService {
     return id;
   }
 
-  createVariantsForProduct(product_id: number) {
+  async createVariantsForProduct(product_id: number) {
+    await this.variantsRepository.softDelete({ product_id: product_id })
     return this.variantFactory.createVariants(product_id);
   }
 
