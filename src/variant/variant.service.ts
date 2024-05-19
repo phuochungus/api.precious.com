@@ -20,13 +20,13 @@ export class VariantService {
       let { id } = await this.variantsRepository.save(createVariantDto);
       return id;
     }
-    let product = await this.variantsRepository.save({ ...createVariantDto });
+    let variant = await this.variantsRepository.save({ ...createVariantDto });
     const img_paths = await Promise.all(files.map(async file => {
-      let img_path = await this.storageService.uploadFile({ file, key: `/variant/${product.id}/${file.originalname}` });
+      let img_path = await this.storageService.uploadFile({ file, key: `/variant/${variant.id}/${file.originalname}` });
       return img_path;
     }));
-    product.img_paths = img_paths;
-    let { id } = await this.variantsRepository.save(product);
+    variant.img_paths = img_paths;
+    let { id } = await this.variantsRepository.save(variant);
     return id;
   }
 
@@ -58,11 +58,22 @@ export class VariantService {
     return await this.variantsRepository.findOne({ where: { id } });
   }
 
-  async update(id: number, updateVariantDto: UpdateVariantDto) {
-    return await this.variantsRepository.update(id, updateVariantDto);
+  async update(id: number, updateVariantDto: UpdateVariantDto, files?: Express.Multer.File[]) {
+    // return await this.variantsRepository.update(id, updateVariantDto);
+    let variant = await this.variantsRepository.findOne({ where: { id } });
+
+    const img_paths = await Promise.all(files.map(async file => {
+      let img_path = await this.storageService.uploadFile({ file, key: `/variant/${variant.id}/${file.originalname}` });
+      return img_path;
+    }));
+    variant.img_paths = img_paths;
+
+    await this.variantsRepository.save(variant)
+    return await this.variantsRepository.findOne({ where: { id } });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} variant`;
+  async remove(id: number) {
+    return await this.variantsRepository.softDelete(id);
+
   }
 }

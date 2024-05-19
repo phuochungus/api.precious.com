@@ -58,6 +58,29 @@ export class VariantController {
     return variant;
   }
 
+  @ApiConsumes('multipart/form-data')
+  @ApiExtraModels(CreateVariantDto)
+  @ApiBody({
+    schema: {
+      allOf: [
+        { $ref: getSchemaPath(UpdateVariantDto) },
+        {
+          type: 'object',
+          properties: {
+            "img[]": {
+              type: 'array',
+              items: {
+                type: 'string',
+                format: 'binary',
+              },
+            },
+          },
+        },
+      ]
+    }
+  })
+  @Post()
+  @UseInterceptors(FilesInterceptor('img[]'))
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateVariantDto: UpdateVariantDto) {
     return this.variantService.update(+id, updateVariantDto);
