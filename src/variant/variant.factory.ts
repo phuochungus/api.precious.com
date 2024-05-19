@@ -20,6 +20,8 @@ export class VariantFactory {
     ) { }
 
     cartesian(...a) {
+        if (a.length === 0) return [];
+        if (a.length === 1) return a[0].map(e => [e]);
         return a.reduce((a, b) => a.flatMap(d => b.map(e => [d, e].flat())));
     }
 

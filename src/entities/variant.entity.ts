@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn, DeleteDateColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Product } from './product.entity';
 import { VariantOptionValue } from './variant_option_value.entity';
 import { Expose } from 'class-transformer';
@@ -29,6 +29,15 @@ export class Variant {
 
     @Column({ default: 0 })
     quantity: number = 0;
+
+    @DeleteDateColumn()
+    deleted_at: Date;
+
+    @CreateDateColumn()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
 
     @Expose()
     get img_paths_url() {
