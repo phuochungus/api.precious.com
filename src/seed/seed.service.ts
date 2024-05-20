@@ -127,15 +127,18 @@ export class SeedService {
 
             let variants = await this.variantFactory.createVariants(product.id);
             product.types = faker.helpers.arrayElements(Types, { min: 1, max: Types.length });
+            product.quantity = 0;
 
             for (let variant of variants) {
                 variant = await this.variantService.uploadImage(variant.id, faker.helpers.arrayElements(ringImgs, { min: 1, max: 3 }));
                 variant.price = faker.number.int({ min: 1, max: 490 }) * 100000;
                 variant.quantity = 10000;
+                
+                product.quantity += variant.quantity;
                 if (!product.price || product.price == 0) product.price = variant.price;
                 await this.variantRepository.save(variant);
             }
-            await this.productRepository.update({ id: product.id }, { price: product.price })
+            await this.productRepository.update({ id: product.id }, { price: product.price, quantity: product.quantity })
             console.log('===Product created', i);
         }
     }

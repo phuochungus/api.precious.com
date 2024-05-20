@@ -6,11 +6,13 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StorageService } from '../firebase/storage.service';
 import { VariantFactory } from './variant.factory';
+import { Product } from 'src/entities/product.entity';
 
 @Injectable()
 export class VariantService {
   constructor(
     @InjectRepository(Variant) private variantsRepository: Repository<Variant>,
+    @InjectRepository(Product) private productRepository: Repository<Product>,
     private readonly storageService: StorageService,
     private readonly variantFactory: VariantFactory
   ) { }
@@ -66,8 +68,14 @@ export class VariantService {
       let img_path = await this.storageService.uploadFile({ file, key: `/variant/${variant.id}/${file.originalname}` });
       return img_path;
     }));
+    if (updateVariantDto.quantity) {
+      const product = await this.productRepository.findOne({ where: { id: variant.product_id } });
+      if (product) {
+        product.quantity += updateVariantDto.quantity - variant.quantity;
+        await this.productRepository.save(product);
+      }
+    }
     variant.img_paths = img_paths;
-
     await this.variantsRepository.save(variant)
     return await this.variantsRepository.findOne({ where: { id } });
   }
