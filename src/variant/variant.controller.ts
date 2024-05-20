@@ -79,7 +79,6 @@ export class VariantController {
       ]
     }
   })
-  @Post()
   @UseInterceptors(FilesInterceptor('img[]'))
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateVariantDto: UpdateVariantDto) {
