@@ -33,7 +33,8 @@ export class VariantService {
   }
 
   async createVariantsForProduct(product_id: number) {
-    await this.variantsRepository.softDelete({ product_id: product_id })
+    const product = await this.productRepository.findOne({ where: { id: product_id }, relations: ['variants'] });
+    await this.variantsRepository.softRemove(product)
     return this.variantFactory.createVariants(product_id);
   }
 
