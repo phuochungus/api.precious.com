@@ -77,7 +77,9 @@ export class OrderService {
         await queryRunner.startTransaction();
         for (let item of order.items) {
           const variant = await queryRunner.manager.findOne(Variant, { where: { id: item.variant.id } })
+          const product = await queryRunner.manager.findOne(Product, { where: { id: variant.product_id } })
           variant.quantity += item.quantity;
+          product.quantity += item.quantity;
           await queryRunner.manager.save(variant);
         }
         await queryRunner.commitTransaction();
