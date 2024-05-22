@@ -93,6 +93,9 @@ export class OrderService {
         await queryRunner.release();
       }
     }
+    else {
+      return await this.orderRepository.save(order);
+    }
   }
 
   async updatePaid(id: number) {
