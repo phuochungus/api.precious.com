@@ -32,7 +32,6 @@ export class UserController {
         return await this.userService.updateRole(id, updateUserDto);
     }
 
-
     @Delete("/:id")
     async delete(@Param('id') id: number) {
         return await this.userService.delete(id);
