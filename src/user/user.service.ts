@@ -4,6 +4,7 @@ import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { UpdateUserDto } from 'src/user/dto/update-user-dto';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { UpdateRoleDto } from 'src/user/dto/update-role.dto';
 
 @Injectable()
 export class UserService {
@@ -34,6 +35,12 @@ export class UserService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     await this.userRepository.update(id, updateUserDto);
+    return await this.userRepository.findOne({ where: { id } });
+  }
+  async updateRole(id: number, updateUserDto: UpdateRoleDto) {
+    let user = await this.userRepository.findOne({ where: { id } });
+    user.userRole = updateUserDto.userRole;
+    await this.userRepository.save(user);
     return await this.userRepository.findOne({ where: { id } });
   }
 }

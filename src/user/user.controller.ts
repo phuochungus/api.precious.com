@@ -3,6 +3,7 @@ import { UserService } from "./user.service";
 import { ApiTags } from "@nestjs/swagger";
 import { UpdateUserDto } from "src/user/dto/update-user-dto";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
+import { UpdateRoleDto } from "src/user/dto/update-role.dto";
 
 @Controller('user')
 @ApiTags('User')
@@ -24,6 +25,11 @@ export class UserController {
     @Get("/find_by_id/:id")
     async findById(@Param('id') id: number) {
         return await this.userService.findById(id);
+    }
+
+    @Put("/update_role/:id")
+    async updateRole(@Param('id') id: number, @Body() updateUserDto: UpdateRoleDto) {
+        return await this.userService.updateRole(id, updateUserDto);
     }
 
 

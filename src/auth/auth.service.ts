@@ -52,6 +52,7 @@ export class AuthService implements common.OnModuleInit {
         console.log(path);
         user.avatar_img_path = path;
         user.cart = new Cart();
+        user.email = decodedToken.email;
         await this.usersRepository.save(user);
         return await this.usersRepository.findOne({ where: { uid } });
       }
