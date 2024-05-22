@@ -71,7 +71,7 @@ export class OrderService {
 
   async update(id: number, updateOrderDto: UpdateStatusOrderDto) {
     let order = await this.orderRepository.findOne({ where: { id: id } });
-    order.status = updateOrderDto.status;
+    await this.orderRepository.update(id, updateOrderDto);
     if (updateOrderDto.status === 'CANCELLED') {
       const queryRunner = this.orderRepository.manager.connection.createQueryRunner();
       await queryRunner.connect();
@@ -92,9 +92,6 @@ export class OrderService {
       } finally {
         await queryRunner.release();
       }
-    }
-    else {
-      return await this.orderRepository.save(order);
     }
   }
 
