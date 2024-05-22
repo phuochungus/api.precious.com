@@ -23,6 +23,7 @@ export class OrderService {
       order.user_id = createOrderDto.user_id;
       order.address = createOrderDto.address;
       order.items = [];
+      order.phone_number = createOrderDto.phone_number;
 
       for (let item of createOrderDto.items) {
         const variant = await queryRunner.manager.findOne(Variant, { where: { id: item.variant_id } })
