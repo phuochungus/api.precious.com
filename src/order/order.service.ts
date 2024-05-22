@@ -139,18 +139,8 @@ export class OrderService {
       signature: signature,
       lang: 'en'
     });
-    //Create the HTTPS objects
-    const https = require('https');
-    const options = {
-      hostname: 'test-payment.momo.vn',
-      port: 443,
-      path: '/v2/gateway/api/create',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(requestBody)
-      }
-    };
+
+
 
     let res = await fetch('https://test-payment.momo.vn/v2/gateway/api/create', {
       method: 'POST',
