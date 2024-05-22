@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order, OrderStatus } from 'src/entities/order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -53,6 +53,7 @@ export class OrderService {
     } catch (err) {
       console.error(err);
       await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException(err.message)
     } finally {
       await queryRunner.release();
     }

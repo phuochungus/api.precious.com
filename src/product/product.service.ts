@@ -58,7 +58,8 @@ export class ProductService {
     return await this.productsRepository.save({ ...product, ...updateProductDto });
   }
 
-  remove(id: number) {
-    return this.productsRepository.softDelete({ id });
+  async remove(id: number) {
+    const product =  await this.productsRepository.findOne({ where: { id }, relations: ['variants'], withDeleted: true });
+    return await this.productsRepository.softRemove(product);
   }
 }

@@ -42,7 +42,7 @@ export class Product {
     @JoinColumn({ name: 'category_id' })
     category: Category;
 
-    @OneToMany(() => Variant, variant => variant.product)
+    @OneToMany(() => Variant, variant => variant.product, { cascade: ["soft-remove", "remove"] })
     variants: Variant[];
 
     @OneToMany(() => Option, option => option.product, { cascade: true })
