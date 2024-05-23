@@ -49,6 +49,11 @@ export class ProductController {
     return await this.productService.findAll(type);
   }
 
+  @Post('calculate_quantity')
+  calculateQuantity() {
+    return this.productService.calculateQuantity();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);

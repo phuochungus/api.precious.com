@@ -31,7 +31,7 @@ export class ProductService {
   async findAll(type?: number) {
     return await this.productsRepository.find({
       order: { id: 'DESC' },
-      ...(type && { relations: ['types'] }),
+      ...(type && { relations: ['types', 'options', 'options.value'] }),
       ...(type && { where: { types: { id: type } } })
     });
   }
@@ -59,7 +59,15 @@ export class ProductService {
   }
 
   async remove(id: number) {
-    const product =  await this.productsRepository.findOne({ where: { id }, relations: ['variants'], withDeleted: true });
+    const product = await this.productsRepository.findOne({ where: { id }, relations: ['variants'], withDeleted: true });
     return await this.productsRepository.softRemove(product);
+  }
+
+  async calculateQuantity() {
+    const products = await this.productsRepository.find({ relations: ['variants'] });
+    for (const product of products) {
+      product.quantity = product.variants.reduce((acc, variant) => acc + variant.quantity, 0);
+    }
+    await this.productsRepository.save(products);
   }
 }
