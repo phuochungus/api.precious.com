@@ -31,7 +31,7 @@ export class ProductService {
   async findAll(type?: number) {
     return await this.productsRepository.find({
       order: { id: 'DESC' },
-      ...(type && { relations: ['types', 'options', 'options.value'] }),
+      relations: ['types', 'options', 'options.value'],
       ...(type && { where: { types: { id: type } } })
     });
   }
@@ -41,7 +41,7 @@ export class ProductService {
       order: { id: 'DESC' },
       skip: start,
       take: limit,
-      ...(type && { relations: ['types'] }),
+      relations: ['types', 'options', 'options.value'],
       ...(type && { where: { types: { id: type } } })
     });
   }
