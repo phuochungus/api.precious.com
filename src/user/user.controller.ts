@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, ForbiddenException, Get, Param, Post, Put, Req } from "@nestjs/common";
+import { Body, Controller, Delete, ForbiddenException, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { ApiTags } from "@nestjs/swagger";
 import { UpdateUserDto } from "src/user/dto/update-user-dto";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { UpdateRoleDto } from "src/user/dto/update-role.dto";
+import { FirebaseAuthGuard } from "src/guard/firebase-auth.guard";
 
 @Controller('user')
 @ApiTags('User')
@@ -39,9 +40,9 @@ export class UserController {
 
     @Put("/:id")
     async update(@Req() req: any, @Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-        if (req.user.uid !== id) {
-            throw new ForbiddenException('You do not have permission to update this user');
-        }
+        // if (req.user.uid !== id) {
+        //     throw new ForbiddenException('You do not have permission to update this user');
+        // }
         return await this.userService.update(id, updateUserDto);
     }
 
