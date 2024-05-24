@@ -77,6 +77,7 @@ export class VariantService {
       }
     }
     variant.img_paths = img_paths;
+    variant = { ...variant, ...updateVariantDto } as Variant;
     await this.variantsRepository.save(variant)
     return await this.variantsRepository.findOne({ where: { id } });
   }
