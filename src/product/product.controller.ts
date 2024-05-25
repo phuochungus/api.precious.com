@@ -42,11 +42,11 @@ export class ProductController {
   }
 
   @Get()
-  async findAll(@Query() { start, quantity, type }: PaginateDto) {
+  async findAll(@Query() { start, quantity, type, categoryId }: PaginateDto) {
     if (start && quantity) {
-      return await this.productService.findWithPagination(start, quantity, type);
+      return await this.productService.findWithPagination(start, quantity, type, categoryId);
     }
-    return await this.productService.findAll(type);
+    return await this.productService.findAll(type, categoryId);
   }
 
   @Post('calculate_quantity')
@@ -58,6 +58,7 @@ export class ProductController {
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
   }
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {

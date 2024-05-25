@@ -18,5 +18,8 @@ export class PaginateDto {
     @IsInt()
     type?: number;
 
-
+    @Type(() => Number)
+    @IsOptional()
+    @IsInt()
+    categoryId?: number;
 }

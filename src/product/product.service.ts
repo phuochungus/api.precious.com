@@ -28,21 +28,24 @@ export class ProductService {
 
   }
 
-  async findAll(type?: number) {
+  async findAll(type?: number, categoryId?: number) {
     return await this.productsRepository.find({
       order: { id: 'DESC' },
       relations: ['types', 'options'],
-      ...(type && { where: { types: { id: type } } })
+      ...(type && { where: { types: { id: type } } }),
+      ...(categoryId && { where: { category: { id: categoryId } } })
     });
   }
 
-  async findWithPagination(start: number, limit: number, type?: number) {
+
+  async findWithPagination(start: number, limit: number, typeId?: number, categoryId?: number) {
     return await this.productsRepository.find({
       order: { id: 'DESC' },
       skip: start,
       take: limit,
       relations: ['types', 'options'],
-      ...(type && { where: { types: { id: type } } })
+      ...(typeId && { where: { types: { id: typeId } } }),
+      ...(categoryId && { where: { category: { id: categoryId } } })
     });
   }
 
