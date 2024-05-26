@@ -46,6 +46,7 @@ export class CartService {
           cart: cart,
           variant: variant,
           quantity: update.quantity,
+          price: variant.price,
         });
         cart.items.push(cartItem);
       }
