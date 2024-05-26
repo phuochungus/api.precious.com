@@ -22,7 +22,7 @@ export class CartService {
   ): Promise<Cart> {
     let cart = await this.cartRepository.findOne({
       where: { user: { id: userId } },
-      relations: ['items', 'items.product'],
+      relations: ['items'],
     });
 
     if (!cart) {
@@ -69,7 +69,7 @@ export class CartService {
   }
 
   async getCart(userId: any) {
-    return  await this.cartRepository.findOne({
+    return await this.cartRepository.findOne({
       where: { user: { id: userId } },
       relations: ['items', 'items.variant'],
     });
