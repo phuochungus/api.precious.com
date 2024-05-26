@@ -16,6 +16,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { OrderModule } from './order/order.module';
 import { AppController } from 'src/app.controller';
 import { AddressModule } from './address/address.module';
+import { OptionvalueModule } from './optionvalue/optionvalue.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { AddressModule } from './address/address.module';
     TypeModule,
     OrderModule,
     AddressModule,
+    OptionvalueModule,
   ],
   providers: [
     {

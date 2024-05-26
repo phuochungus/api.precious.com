@@ -11,7 +11,11 @@ export class OptionValue {
     value: string;
 
     @ManyToOne(() => Option, option => option.values)
+    @JoinColumn({ name: "option_id" })
     option: Option;
+
+    @Column()
+    option_id: number;
 
     @OneToMany(() => VariantOptionValue, variantOptionValue => variantOptionValue.option_value)
     variant_option_values: VariantOptionValue[];
