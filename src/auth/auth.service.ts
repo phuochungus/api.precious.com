@@ -6,10 +6,11 @@ import { getAuth } from 'firebase-admin/auth';
 import { StorageService } from '../firebase/storage.service';
 import { Cart } from 'src/entities/cart.entity';
 import { Admin } from 'src/entities/admin.entity';
+import { Injectable } from '@nestjs/common';
 
 
 
-@common.Injectable()
+@Injectable()
 export class AuthService implements common.OnModuleInit {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,

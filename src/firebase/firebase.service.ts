@@ -23,5 +23,4 @@ export class FirebaseService implements OnModuleInit {
     getStorage() {
         return getStorage();
     }
-
 }
