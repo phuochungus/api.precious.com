@@ -4,7 +4,10 @@ import { FirebaseService } from './firebase.service';
 
 @Module({
   providers: [
-    FirebaseService,
+    {
+      provide: FirebaseService,
+      useValue: FirebaseService.getInstance()
+    },
     StorageService
   ],
   exports: [StorageService, FirebaseService],
