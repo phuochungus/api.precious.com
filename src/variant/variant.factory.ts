@@ -7,7 +7,7 @@ import { VariantOptionValue } from "../entities/variant_option_value.entity";
 import { SameAttributeVariant } from "src/entities/same_attribute_variant";
 import { NullAttributeVariant } from "src/entities/null_attribute_variant";
 
-class CreateVariantBluePrintDto {
+abstract class CreateVariantBluePrintDto {
     variants: Variant[];
     variant_option_values: VariantOptionValue[];
 }
@@ -24,12 +24,6 @@ class CreateNullAttributeVariantBluePrintDto extends CreateVariantBluePrintDto {
 @Injectable()
 export abstract class VariantFactory {
     constructor(
-        @InjectRepository(Product)
-        protected readonly productRepository: Repository<Product>,
-        @InjectRepository(Variant)
-        protected readonly variantRepository: Repository<Variant>,
-        @InjectRepository(VariantOptionValue)
-        protected readonly variantOptionValueRepository: Repository<VariantOptionValue>,
         @InjectDataSource()
         protected readonly dataSource: DataSource,
     ) { }
@@ -40,9 +34,9 @@ export abstract class VariantFactory {
         return a.reduce((a, b) => a.flatMap(d => b.map(e => [d, e].flat())));
     }
 
-    async createVariants(product_id: number): Promise<CreateVariantBluePrintDto> {
+    async createBluePrint(product_id: number): Promise<CreateVariantBluePrintDto> {
         try {
-            let product = await this.productRepository.findOne({
+            let product = await this.dataSource.getRepository(Product).findOne({
                 relations: ["options", "options.values"],
                 where: { id: product_id },
             });
@@ -71,12 +65,12 @@ export abstract class VariantFactory {
         }
     }
 
-    async saveVariants(product_id: number): Promise<Variant[]> {
+    async createVariantFromBluePrint(product_id: number): Promise<Variant[]> {
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            let product = await this.productRepository.findOne({
+            let product = await queryRunner.manager.findOne(Product, {
                 relations: ["options", "options.values"],
                 where: { id: product_id },
             });
@@ -84,13 +78,13 @@ export abstract class VariantFactory {
                 throw new Error("Product not found, cannot create variants for it.");
             }
             product.quantity = 0;
-            let { variants, variant_option_values } = await this.createVariants(product_id);
-            variants = await this.variantRepository.save(variants);
+            let { variants, variant_option_values } = await this.createBluePrint(product_id);
+            variants = await queryRunner.manager.save(variants);
             variant_option_values = variant_option_values.map((v, i) => ({ ...v, variant_id: variants[i].id }));
 
-            await this.variantOptionValueRepository.save(variant_option_values);
+            await queryRunner.manager.save(variant_option_values);
             product.quantity = variants.reduce((acc, v) => acc + v.quantity, 0);
-            await this.productRepository.save(product);
+            await queryRunner.manager.save(product);
 
             await queryRunner.commitTransaction();
             return variants;
@@ -103,26 +97,19 @@ export abstract class VariantFactory {
 
     }
 }
-
 @Injectable()
 export class SameAttributeVariantFactory extends VariantFactory {
     constructor(
-        @InjectRepository(Product)
-        productRepository: Repository<Product>,
-        @InjectRepository(Variant)
-        variantRepository: Repository<Variant>,
-        @InjectRepository(VariantOptionValue)
-        variantOptionValueRepository: Repository<VariantOptionValue>,
         @InjectDataSource()
         dataSource: DataSource,
     ) {
-        super(productRepository, variantRepository, variantOptionValueRepository, dataSource);
+        super(dataSource);
     }
 
-    async createVariants(product_id: number): Promise<CreateSameAttributeVariantBluePrintDto> {
+    async createBluePrint(product_id: number): Promise<CreateSameAttributeVariantBluePrintDto> {
         try {
-            let { variants, variant_option_values }: CreateVariantBluePrintDto = await super.createVariants(product_id);
-            let product = await this.productRepository.findOne({
+            let { variants, variant_option_values }: CreateVariantBluePrintDto = await super.createBluePrint(product_id);
+            let product = await this.dataSource.getRepository(Product).findOne({
                 relations: ["options", "options.values"],
                 where: { id: product_id },
             });
@@ -140,22 +127,16 @@ export class SameAttributeVariantFactory extends VariantFactory {
 @Injectable()
 export class NullAttributeVariantFactory extends VariantFactory {
     constructor(
-        @InjectRepository(Product)
-        productRepository: Repository<Product>,
-        @InjectRepository(Variant)
-        variantRepository: Repository<Variant>,
-        @InjectRepository(VariantOptionValue)
-        variantOptionValueRepository: Repository<VariantOptionValue>,
         @InjectDataSource()
         dataSource: DataSource,
     ) {
-        super(productRepository, variantRepository, variantOptionValueRepository, dataSource);
+        super(dataSource);
     }
 
-    async createVariants(product_id: number): Promise<CreateNullAttributeVariantBluePrintDto> {
+    async createBluePrint(product_id: number): Promise<CreateNullAttributeVariantBluePrintDto> {
         try {
-            let { variants, variant_option_values }: CreateVariantBluePrintDto = await super.createVariants(product_id);
-            let product = await this.productRepository.findOne({
+            let { variants, variant_option_values }: CreateVariantBluePrintDto = await super.createBluePrint(product_id);
+            let product = await this.dataSource.getRepository(Product).findOne({
                 relations: ["options", "options.values"],
                 where: { id: product_id },
             });

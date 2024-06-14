@@ -8,14 +8,11 @@ import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { VariantFactory } from '../variant/variant.factory';
 import { VariantService } from '../variant/variant.service';
-import { CreateOptionDto } from '../option/dto/create_option.dto';
-import { OptionService } from '../option/option.service';
 import { TypeService } from '../type/type.service';
 import { Type } from '../entities/type.entity';
 import { Product } from '../entities/product.entity';
 import { Variant } from '../entities/variant.entity';
 import * as path from 'path';
-import { Role } from 'src/entities/admin.entity';
 import { UserService } from 'src/user/user.service';
 import { UserRole } from 'src/entities/user.entity';
 import { Option } from 'src/entities/option.entity';
@@ -28,7 +25,6 @@ export class SeedService {
         private readonly categoryService: CategoryService,
         private readonly variantFactory: VariantFactory,
         private readonly variantService: VariantService,
-        private readonly optionService: OptionService,
         private readonly typeService: TypeService,
         private readonly userService: UserService,
         @InjectDataSource() private readonly dataSource: DataSource,
@@ -125,8 +121,8 @@ export class SeedService {
                 console.log('===Saved option', savedOption);
             }
 
-            await this.variantFactory.saveVariants(product.id);
-            let { variants } = await this.variantFactory.createVariants(product.id);
+            await this.variantFactory.createVariantFromBluePrint(product.id);
+            let { variants } = await this.variantFactory.createBluePrint(product.id);
             product.types = faker.helpers.arrayElements(Types, { min: 1, max: Types.length });
             product.quantity = 0;
 
