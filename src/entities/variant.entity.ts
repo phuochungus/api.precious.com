@@ -5,6 +5,9 @@ import { Expose } from 'class-transformer';
 
 @Entity()
 export class Variant {
+    constructor(variant: Partial<Variant>) {
+        Object.assign(this, variant);
+    }
     @PrimaryGeneratedColumn()
     id: number;
 

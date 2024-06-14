@@ -38,5 +38,4 @@ export class StorageService {
             blobStream.end(buffer);
         });
     }
-
 }
