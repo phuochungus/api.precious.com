@@ -144,7 +144,7 @@ export class SeedService {
     }
 
     private async createAdmin() {
-        return await this.userService.create({ uid: 'uMtcOEqJF2YASucnOqDGCbdc7sP2', userRole: UserRole.ADMIN });
+        return await this.userService.create({ uid: '1gMyHdmcpxaM3UPMuBbpvZkMOHB2', userRole: UserRole.ADMIN });
     }
 
     async deleteAllFilesInBucket() {
