@@ -125,7 +125,8 @@ export class SeedService {
                 console.log('===Saved option', savedOption);
             }
 
-            let variants = await this.variantFactory.createVariants(product.id);
+            await this.variantFactory.saveVariants(product.id);
+            let { variants } = await this.variantFactory.createVariants(product.id);
             product.types = faker.helpers.arrayElements(Types, { min: 1, max: Types.length });
             product.quantity = 0;
 
@@ -133,7 +134,7 @@ export class SeedService {
                 variant = await this.variantService.uploadImage(variant.id, faker.helpers.arrayElements(ringImgs, { min: 1, max: 3 }));
                 variant.price = faker.number.int({ min: 1, max: 490 }) * 100000;
                 variant.quantity = 10000;
-                
+
                 product.quantity += variant.quantity;
                 if (!product.price || product.price == 0) product.price = variant.price;
                 await this.variantRepository.save(variant);

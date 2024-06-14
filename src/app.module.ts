@@ -9,7 +9,6 @@ import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { VariantModule } from './variant/variant.module';
 import { OptionModule } from './option/option.module';
-import { VariantOptionValueModule } from './variant-option-value/variant-option-value.module';
 import { SeedModule } from './seed/seed.module';
 import { TypeModule } from './type/type.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -38,7 +37,6 @@ import { OptionvalueModule } from './optionvalue/optionvalue.module';
     CategoryModule,
     VariantModule,
     OptionModule,
-    VariantOptionValueModule,
     SeedModule,
     TypeModule,
     OrderModule,
